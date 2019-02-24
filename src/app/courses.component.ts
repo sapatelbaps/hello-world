@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CoursesService } from './courses.service';
 
 @Component({
   selector: 'courses', // <courses></courses>
@@ -14,6 +15,14 @@ import { Component } from '@angular/core';
 })
 export class CoursesComponent{
   title = "List of courses";
-  courses = ["course 1" , "course 2", "course 3"]
+  courses;
 
+  constructor(){
+
+    // makes it tightly coupled as if any change is there in service method then need to change everywhere - fragile change.
+    let service = new CoursesService();
+    this.courses = service.getCourses();
+    }
+
+  // Logic for calling HTTP service from this component - issue is tightly couopled.
 }
