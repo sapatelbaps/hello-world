@@ -17,10 +17,10 @@ export class CoursesComponent{
   title = "List of courses";
   courses;
 
-  constructor(){
+  constructor(service: CoursesService){
+    // makes it tightly coupled as if any change is there in service then need to change everywhere - fragile change.
+    // let service = new CoursesService();
 
-    // makes it tightly coupled as if any change is there in service method then need to change everywhere - fragile change.
-    let service = new CoursesService();
     this.courses = service.getCourses();
     }
 
