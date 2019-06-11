@@ -24,5 +24,9 @@ export class CoursesComponent{
     this.courses = service.getCourses();
     }
 
+    getTitle(): string {
+      return this.title;
+    }
+
   // Logic for calling HTTP service from this component - issue is tightly couopled.
 }
