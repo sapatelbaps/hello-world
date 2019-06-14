@@ -1,4 +1,4 @@
 {
     "appService.deploySubpath": "dist\\hello-world",
-    "appService.defaultWebAppToDeploy": "/subscriptions/282b2b47-a3f2-401d-ba48-47851eacb894/resourceGroups/finalangular/providers/Microsoft.Web/sites/angular6sapmstc1"
+    "appService.defaultWebAppToDeploy": "/subscriptions/282b2b47-a3f2-401d-ba48-47851eacb894/resourceGroups/angular/providers/Microsoft.Web/sites/helloangular6"
 }
