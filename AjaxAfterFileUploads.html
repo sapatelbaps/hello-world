@@ -1,0 +1,96 @@
+<html>
+
+<head>
+  <title>
+    AJAX call only after all file uploads base64 string reading
+  </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    function DisplayAndSendData() {
+      var result = ReadFiles();
+      //alert($('#datauploader').prop('files').length);
+      DisplayFilesData(result);
+      //SubmitData(result);
+    };
+
+    function SubmitData(RawData){
+      // Implement AJAX post call here.
+      $('#RawContent').append($('<a>').addClass('list-group-item list-group-item-success').attr('href', '#').text('Finished AJAX call.'));
+      $(RawData).each(function (index, file) {
+        $('#RawContent').append($('<a>').addClass('list-group-item').attr('href', '#').text(JSON.stringify(file)));
+      });
+    };
+
+    function ReadFiles() {
+      let allFiles = [];
+      let count = $('#datauploader').prop('files').length;
+
+      // TODO/TRY : Array.from(files).foreach(file => {})
+      $($('#datauploader').prop('files')).each(function (index, file) {
+        // HTML5 API feature
+        var reader = new FileReader();
+        // Fires when reading of file is complete
+        reader.onload = function (e) {
+          let record = {};
+          record[file.name] = e.target.result;
+          allFiles.push(record);
+          if (!--count) SubmitData(allFiles);  // when done, invoke callback
+          console.log(record);
+        }
+        // Read the blob BASE64 data from the file
+        reader.readAsDataURL(file);
+      });
+
+      return allFiles;
+    };
+
+    function DisplayFilesData(FilesData) {
+      $(FilesData).each(function (index, file) {
+        $('#RawContent').append($('<a>').addClass('list-group-item').attr('href', '#').text(file));
+      });
+    };
+
+  </script>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="col-md-10">
+      <h1>AJAX POST call to supply base64 files</h1>
+    </div>
+    <br />
+    <div class="col-md-10">
+      <div class="list-group">
+        <a href="#" class="list-group-item">User can upload multiple files.</a>
+        <a href="#" class="list-group-item">On submit button click read base64 string of all uploaded files, display the
+          base64 content on page and make AJAX call and pass all file names and base64 string in JSON array.</a>
+        <a href="#" class="list-group-item">(e.g.{'attachments' : [{'file1.txt': 'content'},{'file2.txt' : 'content'
+          }]})</a>
+      </div>
+    </div>
+    <div class="row"></div>
+    <br />
+    <div class="col-md-6">
+      <input type="file" multiple id="datauploader" />
+    </div>
+    <div class="col-md-10" style="display: flex; justify-content: flex-end">
+      <input type="button" class="btn btn-primary" onclick="DisplayAndSendData()" value="Submit"></input>
+    </div>
+    <br />
+    <div class="col-md-10">
+      <div id="RawContent" class="list-group">
+        <a href="#" class="list-group-item active">Data</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
